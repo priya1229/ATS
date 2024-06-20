@@ -1,78 +1,22 @@
+// backend/routes/jobRoutes.js
 const express = require('express');
 const router = express.Router();
-const Job = require('../models/Job');
 const authMiddleware = require('../middleware/authMiddleware');
+const jobController = require('../controllers/jobController');
 
-const { isCoordinator } = require('../middleware/roleMiddleware');
+// Create a new job
+router.post('/', authMiddleware, jobController.createJob);
 
-// Create Job Post
-router.post('/', authMiddleware, async (req, res) => {
-    const { title, location, salary, responsibilities, r1CheckForm } = req.body;
-    const employer = req.user.id;
+// Approve a job (update with R2 check form)
+router.put('/:id', authMiddleware, jobController.approveJob);
 
-    try {
-        const job = new Job({ title, location, salary, responsibilities, r1CheckForm, employer });
-        await job.save();
-        res.status(201).json(job);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Get All Jobs
-router.get('/', async (req, res) => {
-    try {
-        const jobs = await Job.find().populate('employer', 'name');
-        res.json(jobs);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Get Single Job
-router.get('/:id', async (req, res) => {
-    try {
-        const job = await Job.findById(req.params.id).populate('employer', 'name');
-        if (!job) {
-            return res.status(404).json({ error: 'Job not found' });
-        }
-        res.json(job);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Update Job (Assign Recruiter and Add R2 Check Form)
-router.put('/:id', [authMiddleware, isCoordinator], async (req, res) => {
-    const { r2CheckForm, recruiter } = req.body;
-
-    try {
-        const job = await Job.findById(req.params.id);
-        if (!job) {
-            return res.status(404).json({ error: 'Job not found' });
-        }
-
-        job.r2CheckForm = r2CheckForm;
-        job.recruiter = recruiter;
-        await job.save();
-
-        res.json(job);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
+// Post a job (mark as live)
+router.post('/post', authMiddleware, jobController.postJob);
 
 // Get all jobs
-router.get('/', async (req, res) => {
-    try {
-        const jobs = await Job.find();
-        res.json(jobs);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
+router.get('/', jobController.getAllJobs);
 
-
+// Get a single job by ID
+router.get('/:id', jobController.getJobById);
 
 module.exports = router;

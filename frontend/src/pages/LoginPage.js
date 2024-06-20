@@ -14,7 +14,7 @@ const LoginPage = () => {
         try {
             const response = await login({ email, password });
             localStorage.setItem('token', response.token);
-            navigate('/dashboard');
+            navigate('/create-job');
         } catch (error) {
             console.error(error);
         }
