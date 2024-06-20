@@ -4,19 +4,17 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Register User
+// Registration route
 router.post('/register', async (req, res) => {
-    const { name, email, password, role } = req.body;
-
     try {
-        const user = new User({ name, email, password, role });
-        await user.save();
-        res.status(201).json(user);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+        const { name, email, password, role } = req.body;
+        const newUser = new User({ name, email, password, role });
+        await newUser.save();
+        res.status(201).json(newUser);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
     }
 });
-
 // Login User
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;

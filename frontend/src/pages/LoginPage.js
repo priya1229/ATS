@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { login } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
+
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -13,7 +14,7 @@ const LoginPage = () => {
         try {
             const response = await login({ email, password });
             localStorage.setItem('token', response.token);
-            navigate('/');
+            navigate('/dashboard');
         } catch (error) {
             console.error(error);
         }

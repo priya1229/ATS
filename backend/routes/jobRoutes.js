@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Job = require('../models/Job');
 const authMiddleware = require('../middleware/authMiddleware');
+
 const { isCoordinator } = require('../middleware/roleMiddleware');
 
 // Create Job Post
@@ -60,5 +61,18 @@ router.put('/:id', [authMiddleware, isCoordinator], async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+
+// Get all jobs
+router.get('/', async (req, res) => {
+    try {
+        const jobs = await Job.find();
+        res.json(jobs);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
 
 module.exports = router;

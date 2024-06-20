@@ -1,24 +1,34 @@
-// src/App.js
+// frontend/src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import JobDetailsPage from './pages/JobDetailsPage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
 import Navbar from './components/Navbar';
-import ProtectedRoute from './components/ProtectedRoute';
+import HomePage from './pages/HomePage';
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
+import DashboardPage from './pages/DashboardPage';
+import CreateJobPage from './pages/CreateJobPage';
+import JobListPage from './pages/JobListPage';
+import JobDetailsPage from './pages/JobDetailsPage';
+import ReviewApplicationsPage from './pages/ReviewApplicationsPage';
+import './index.css';
 
 function App() {
   return (
     <Router>
-      <Navbar />
-      <div className="container mx-auto p-4">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/job/:id" element={<JobDetailsPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-        </Routes>
+      <div className="min-h-screen bg-gray-100">
+        <Navbar />
+        <div className="container mx-auto p-4">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/create-job" element={<CreateJobPage />} />
+            <Route path="/jobs" element={<JobListPage />} />
+            <Route path="/job/:id" element={<JobDetailsPage />} />
+            <Route path="/review-applications" element={<ReviewApplicationsPage />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );
