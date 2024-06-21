@@ -1,5 +1,6 @@
-// frontend/src/context/AuthContext.js
+// src/context/AuthContext.js
 import React, { createContext, useState, useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode'; // Correct import
 import { login as loginUser, register as registerUser } from '../services/api';
 
 const AuthContext = createContext();
@@ -9,16 +10,27 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (token) {
-            // decode token and set user
-            setUser({ role: 'decode_from_token' });
+        if (token && token.split('.').length === 3) { // Check if token is valid JWT
+            try {
+                const decodedUser = jwtDecode(token);
+                setUser(decodedUser);
+            } catch (error) {
+                console.error('Invalid token:', error);
+                localStorage.removeItem('token');
+            }
         }
     }, []);
 
     const login = async (email, password) => {
         const response = await loginUser({ email, password });
-        localStorage.setItem('token', response.data.token);
-        setUser({ role: 'decode_from_token' });
+        const token = response.data.token;
+        if (token && token.split('.').length === 3) { // Check if token is valid JWT
+            localStorage.setItem('token', token);
+            const decodedUser = jwtDecode(token);
+            setUser(decodedUser);
+        } else {
+            console.error('Invalid token received from server');
+        }
     };
 
     const register = async (userData) => {

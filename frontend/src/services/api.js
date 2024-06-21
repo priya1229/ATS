@@ -1,13 +1,20 @@
-// frontend/src/services/api.js
+// src/services/api.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://localhost:3001/api'; // Adjust this as needed
 
-export const register = (userData) => axios.post(`${API_URL}/users/register`, userData);
-export const login = (credentials) => axios.post(`${API_URL}/users/login`, credentials);
-export const postJob = (jobData) => axios.post(`${API_URL}/jobs`, jobData);
-export const getJobs = () => axios.get(`${API_URL}/jobs`);
-export const getJob = (id) => axios.get(`${API_URL}/jobs/${id}`);
-export const applyJob = (id, applicationData) => axios.post(`${API_URL}/jobs/${id}/apply`, applicationData);
-export const getApplications = () => axios.get(`${API_URL}/applications`);
-export const reviewApplication = (id, reviewData) => axios.post(`${API_URL}/applications/${id}/review`, reviewData);
+export const login = async (credentials) => {
+    return axios.post(`${API_URL}/auth/login`, credentials);
+};
+
+export const register = async (userData) => {
+    return axios.post(`${API_URL}/auth/register`, userData);
+};
+
+export const getJobs = async () => {
+    return axios.get(`${API_URL}/jobs`);
+};
+
+export const postJob = async (jobData) => {
+    return axios.post(`${API_URL}/jobs`, jobData);
+};

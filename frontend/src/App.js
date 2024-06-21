@@ -1,37 +1,38 @@
-// frontend/src/App.js
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
-import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage';
+import RegisterPage from './pages/RegisterPage';
 import CreateJobPage from './pages/CreateJobPage';
-import JobListPage from './pages/JobListPage';
-import JobDetailsPage from './pages/JobDetailsPage';
-import ReviewApplicationsPage from './pages/ReviewApplicationsPage';
-import './index.css';
+import DashboardPage from './pages/DashboardPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
 
-function App() {
+const App = () => {
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-100">
+    <AuthProvider>
+      <Router>
         <Navbar />
-        <div className="container mx-auto p-4">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/create-job" element={<CreateJobPage />} />
-            <Route path="/jobs" element={<JobListPage />} />
-            <Route path="/job/:id" element={<JobDetailsPage />} />
-            <Route path="/review-applications" element={<ReviewApplicationsPage />} />
-          </Routes>
-        </div>
-      </div>
-    </Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/create-job" element={
+            <ProtectedRoute>
+              <CreateJobPage />
+            </ProtectedRoute>
+          } />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
-}
+};
 
 export default App;

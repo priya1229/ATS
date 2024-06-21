@@ -1,4 +1,4 @@
-// frontend/src/pages/CreateJobPage.js
+// src/pages/CreateJobPage.js
 import React, { useState } from 'react';
 import { postJob } from '../services/api';
 

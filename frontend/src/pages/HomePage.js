@@ -1,6 +1,7 @@
-// frontend/src/pages/HomePage.js
+// src/pages/HomePage.js
 import React, { useState, useEffect } from 'react';
 import { getJobs } from '../services/api';
+import JobCard from '../components/JobCard'; // Import JobCard component
 
 const HomePage = () => {
     const [jobs, setJobs] = useState([]);
@@ -30,10 +31,7 @@ const HomePage = () => {
                 <ul>
                     {jobs.map(job => (
                         <li key={job._id} className="border-b py-4">
-                            <h2 className="text-xl font-semibold">{job.title}</h2>
-                            <p>{job.location}</p>
-                            <p>{job.salary}</p>
-                            <p>{job.responsibilities}</p>
+                            <JobCard job={job} />
                         </li>
                     ))}
                 </ul>

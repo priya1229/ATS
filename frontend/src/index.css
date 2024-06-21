@@ -6,8 +6,7 @@
 
 body {
     font-family: "Space Grotesk", sans-serif;
-    background-image: url('./assets/ATS.jpg');
-    /* Adjust the path based on your project structure */
+    background: url('./assets/ATS.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
