@@ -1,4 +1,3 @@
-// src/pages/CreateJobPage.js
 import React, { useState } from 'react';
 import { postJob } from '../services/api';
 
@@ -29,7 +28,6 @@ const CreateJobPage = () => {
         e.preventDefault();
         try {
             await postJob(jobData);
-            // Reset form or show success message
             setJobData({
                 title: '',
                 location: '',
@@ -41,23 +39,21 @@ const CreateJobPage = () => {
         } catch (err) {
             console.error('Error creating job:', err);
             if (err.response && err.response.status === 401) {
-                // Handle unauthorized error (e.g., logout user, redirect to login)
+                localStorage.removeItem('token');
                 alert('Unauthorized! Please log in again.');
-                // Example: logoutUser();
+                // Example: history.push('/login');
             } else {
-                // Handle other errors (e.g., display specific error message)
                 alert('Failed to create job. Please try again later.');
             }
         }
     };
 
-
     return (
-        <div className="max-w-4xl mx-auto p-6">
-            <h2 className="text-2xl font-semibold mb-4">Create Job</h2>
+        <div className="max-w-4xl mx-auto p-6 rounded shadow-md w-full bg-slate-600 mt-8">
+            <h2 className="text-2xl font-semibold mb-4 text-center">Create Job</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Job Title</label>
+                    <label className="block text-sm font-medium text-zinc-950">Job Title</label>
                     <input
                         type="text"
                         name="title"
@@ -68,7 +64,7 @@ const CreateJobPage = () => {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Location</label>
+                    <label className="block text-sm font-medium text-zinc-950">Location</label>
                     <input
                         type="text"
                         name="location"
@@ -79,7 +75,7 @@ const CreateJobPage = () => {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Salary</label>
+                    <label className="block text-sm font-medium text-zinc-950">Salary</label>
                     <input
                         type="text"
                         name="salary"
@@ -90,7 +86,7 @@ const CreateJobPage = () => {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Responsibilities</label>
+                    <label className="block text-sm font-medium text-zinc-950">Responsibilities</label>
                     <textarea
                         name="responsibilities"
                         value={jobData.responsibilities}
@@ -100,7 +96,7 @@ const CreateJobPage = () => {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">R1 Questions</label>
+                    <label className="block text-sm font-medium text-zinc-950">R1 Questions</label>
                     {jobData.r1Questions.map((question, index) => (
                         <input
                             key={index}

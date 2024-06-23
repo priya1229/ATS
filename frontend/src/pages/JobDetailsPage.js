@@ -1,66 +1,51 @@
-// frontend/src/pages/JobDetailsPage.js
+// src/pages/JobDetailsPage.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getJob, applyJob } from '../services/api';
+import { getJobDetails } from '../services/api';
 
 const JobDetailsPage = () => {
-    const { id } = useParams();
-    const [job, setJob] = useState(null);
-    const [answers, setAnswers] = useState(['', '', '', '', '']);
+    const { jobId } = useParams(); // Ensure this matches the route parameter
+    const [jobDetails, setJobDetails] = useState(null);
 
     useEffect(() => {
-        const fetchJob = async () => {
-            const response = await getJob(id);
-            setJob(response.data);
+        const fetchJobDetails = async () => {
+            if (jobId) {
+                try {
+                    const response = await getJobDetails(jobId);
+                    setJobDetails(response.data);
+                } catch (error) {
+                    console.error('Error fetching job details:', error);
+                }
+            }
         };
-        fetchJob();
-    }, [id]);
 
-    const handleAnswerChange = (index, value) => {
-        const newAnswers = [...answers];
-        newAnswers[index] = value;
-        setAnswers(newAnswers);
-    };
+        fetchJobDetails();
+    }, [jobId]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await applyJob(id, { answers });
-            // Redirect or notify success
-        } catch (err) {
-            console.error(err);
-            // Handle error (e.g., show message)
-        }
-    };
-
-    if (!job) return <div>Loading...</div>;
+    if (!jobDetails) {
+        return <div>Loading job details...</div>;
+    }
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
-            <h2 className="text-2xl font-semibold mb-4">{job.title}</h2>
-            <p><strong>Location:</strong> {job.location}</p>
-            <p><strong>Salary:</strong> {job.salary}</p>
-            <p><strong>Responsibilities:</strong> {job.responsibilities}</p>
-            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">R1 Questions</label>
-                    {job.r1Questions.map((question, index) => (
-                        <div key={index}>
-                            <label className="block">{question}</label>
-                            <input
-                                type="text"
-                                value={answers[index]}
-                                onChange={(e) => handleAnswerChange(index, e.target.value)}
-                                className="mt-1 block w-full p-2 border border-gray-300 rounded-md mb-2"
-                            />
-                        </div>
-                    ))}
-                </div>
-                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                    Apply
-                </button>
-            </form>
+        <div className="border mt-5 ml-5 mr-5 rounded-lg shadow-md max-w-4xl mx-auto p-6 bg-slate-600">
+            <h2 className="text-2xl font-semibold mb-4">{jobDetails.title}</h2>
+            <p className="text-lg">Location: {jobDetails.location}</p>
+            <p className="text-lg">Salary: {jobDetails.salary}</p>
+            <h3 className="text-xl font-semibold mt-4">Responsibilities</h3>
+            <ul className="list-disc ml-6">
+                {jobDetails.responsibilities.split(',').map((responsibility, index) => (
+                    <li key={index}>{responsibility}</li>
+                ))}
+            </ul>
+            <h3 className="text-xl font-semibold mt-4">R1 Questions</h3>
+            <ul className="list-disc ml-6">
+                {jobDetails.r1questions.map((question, index) => (
+                    <li key={index}>{question}</li>
+                ))}
+            </ul>
+
         </div>
+
     );
 };
 

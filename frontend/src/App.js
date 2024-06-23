@@ -8,7 +8,9 @@ import RegisterPage from './pages/RegisterPage';
 import CreateJobPage from './pages/CreateJobPage';
 import DashboardPage from './pages/DashboardPage';
 import ReviewApplicationsPage from './pages/ReviewApplicationsPage';
-import { AuthProvider, useAuth } from './context/AuthContext'; // Import AuthProvider and useAuth
+import JobDetailsPage from './pages/JobDetailsPage';
+import ApplyJobPage from './pages/ApplyJobPage';
+import { AuthProvider, useAuth } from './context/AuthContext';
 
 const App = () => {
   return (
@@ -19,6 +21,8 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/jobs/:jobId" element={<JobDetailsPage />} />
+          <Route path="/apply/:jobId" element={<ApplyJobPage />} />
           <Route path="*" element={<Navigate to="/" />} />
           <Route element={<PrivateRoutes />}>
             <Route path="/dashboard" element={<DashboardPage />} />
