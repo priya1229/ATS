@@ -1,14 +1,19 @@
-// frontend/src/pages/ReviewApplicationsPage.js
+// src/pages/ReviewApplicationsPage.js
+
 import React, { useState, useEffect } from 'react';
-import { getApplications, reviewApplication } from '../services/api';
+import { getApplications, reviewApplication } from '../services/api'; // Import functions correctly
 
 const ReviewApplicationsPage = () => {
     const [applications, setApplications] = useState([]);
 
     useEffect(() => {
         const fetchApplications = async () => {
-            const response = await getApplications();
-            setApplications(response.data);
+            try {
+                const response = await getApplications();
+                setApplications(response.data);
+            } catch (err) {
+                console.error(err);
+            }
         };
         fetchApplications();
     }, []);
@@ -16,7 +21,18 @@ const ReviewApplicationsPage = () => {
     const handleReview = async (applicationId, reviewData) => {
         try {
             await reviewApplication(applicationId, reviewData);
-            // Refresh the list or notify success
+            // Assuming you want to refresh applications list or notify success here
+            const updatedApplications = applications.map(app => {
+                if (app._id === applicationId) {
+                    // Update app object with new review data
+                    return {
+                        ...app,
+                        reviewed: true, // Example property, adjust based on your backend response
+                    };
+                }
+                return app;
+            });
+            setApplications(updatedApplications);
         } catch (err) {
             console.error(err);
             // Handle error (e.g., show message)

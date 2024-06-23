@@ -29,12 +29,28 @@ const CreateJobPage = () => {
         e.preventDefault();
         try {
             await postJob(jobData);
-            // Redirect or notify success
+            // Reset form or show success message
+            setJobData({
+                title: '',
+                location: '',
+                salary: '',
+                responsibilities: '',
+                r1Questions: ['', '', '', '', ''],
+            });
+            alert('Job created successfully!');
         } catch (err) {
-            console.error(err);
-            // Handle error (e.g., show message)
+            console.error('Error creating job:', err);
+            if (err.response && err.response.status === 401) {
+                // Handle unauthorized error (e.g., logout user, redirect to login)
+                alert('Unauthorized! Please log in again.');
+                // Example: logoutUser();
+            } else {
+                // Handle other errors (e.g., display specific error message)
+                alert('Failed to create job. Please try again later.');
+            }
         }
     };
+
 
     return (
         <div className="max-w-4xl mx-auto p-6">

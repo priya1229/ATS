@@ -24,7 +24,7 @@ const HomePage = () => {
 
     return (
         <div className="container mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-4">Job Listings</h1>
+            <h1 className="text-3xl font-bold mb-4 ">Job Listings</h1>
             {jobs.length === 0 ? (
                 <p>No jobs available.</p>
             ) : (

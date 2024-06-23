@@ -1,11 +1,18 @@
 // src/components/ProtectedRoute.js
+
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Route, Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-const ProtectedRoute = ({ children }) => {
-    const isAuthenticated = Boolean(localStorage.getItem('token'));
+const ProtectedRoute = ({ role, element, ...rest }) => {
+    const { user } = useAuth();
 
-    return isAuthenticated ? children : <Navigate to="/login" />;
+    // Example logic for role-based authorization
+    if (user && user.role === role) {
+        return <Route {...rest} element={element} />;
+    } else {
+        return <Navigate to="/login" />;
+    }
 };
 
 export default ProtectedRoute;

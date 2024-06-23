@@ -1,10 +1,11 @@
 // src/components/Navbar.js
-import React, { useContext } from 'react';
+
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
-    const { user, logout } = useContext(AuthContext);
+    const { user, logout } = useAuth(); // Use useAuth hook to access user information and logout function
 
     return (
         <nav className="bg-zinc-950 p-4 text-white">

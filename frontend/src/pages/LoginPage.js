@@ -1,21 +1,35 @@
-// src/pages/LoginPage.js
 import React, { useState } from 'react';
-import { login } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-
 const LoginPage = () => {
+    const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
+
+
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setError('');
         try {
-            const response = await login({ email, password });
-            localStorage.setItem('token', response.token);
-            navigate('/create-job');
+            const response = await fetchUserData(email, password);
+            if (response.userData) {
+                login(response.userData);
+                if (response.userData.role === 'Employer') {
+                    navigate('/create-job');
+                } else if (response.userData.role === 'Recruiter') {
+                    navigate('/review-applications');
+                } else {
+                    navigate('/dashboard');
+                }
+            } else {
+                setError('Invalid credentials');
+            }
         } catch (error) {
+            setError('An error occurred. Please try again.');
             console.error(error);
         }
     };
@@ -23,6 +37,7 @@ const LoginPage = () => {
     return (
         <div className="max-w-md mx-auto mt-8">
             <h2 className="text-2xl font-bold mb-4">Login</h2>
+            {error && <p className="text-red-600">{error}</p>}
             <form onSubmit={handleLogin} className="space-y-4">
                 <div>
                     <label className="block mb-2">Email</label>
@@ -51,3 +66,25 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+// Replace with actual API call
+async function fetchUserData(email, password) {
+    try {
+        const response = await fetch('http://localhost:5000/api/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        });
+        const data = await response.json();
+        if (response.ok) {
+            return { userData: data.user }; // Adjust this based on your API response structure
+        } else {
+            throw new Error(data.message || 'Failed to login');
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        throw error;
+    }
+}
