@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://atsbackend.vercel.app/api'; // Adjust this as needed
+const API_URL = 'https://backendats.vercel.app/api'; // Adjust this as needed
 
 const api = axios.create({
     baseURL: API_URL,
