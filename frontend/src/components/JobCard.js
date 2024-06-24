@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const JobCard = ({ job }) => {
     return (
-        <div className="border p-4 rounded-lg shadow-md bg-slate-600">
+        <div className="border p-4 rounded-lg shadow-md transparent-bg">
             <h2 className="text-xl font-bold mb-2">{job.title}</h2>
             <p className="text-zinc-950 mb-2">{job.location}</p>
             <p className="text-zinc-950 mb-2">{job.salary}</p>

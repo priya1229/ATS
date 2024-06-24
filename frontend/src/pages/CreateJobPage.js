@@ -49,11 +49,11 @@ const CreateJobPage = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-6 rounded shadow-md w-full bg-slate-600 mt-8">
+        <div className="max-w-4xl mx-auto p-6 rounded shadow-md w-full transparent-bg mt-8">
             <h2 className="text-2xl font-semibold mb-4 text-center">Create Job</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label className="block text-sm font-medium text-zinc-950">Job Title</label>
+                    <label className="block  text-zinc-950">Job Title</label>
                     <input
                         type="text"
                         name="title"
@@ -64,7 +64,7 @@ const CreateJobPage = () => {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-zinc-950">Location</label>
+                    <label className="block  text-zinc-950">Location</label>
                     <input
                         type="text"
                         name="location"
@@ -75,7 +75,7 @@ const CreateJobPage = () => {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-zinc-950">Salary</label>
+                    <label className="block  text-zinc-950">Salary</label>
                     <input
                         type="text"
                         name="salary"
@@ -86,7 +86,7 @@ const CreateJobPage = () => {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-zinc-950">Responsibilities</label>
+                    <label className="block  text-zinc-950">Responsibilities</label>
                     <textarea
                         name="responsibilities"
                         value={jobData.responsibilities}
@@ -96,7 +96,7 @@ const CreateJobPage = () => {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-zinc-950">R1 Questions</label>
+                    <label className="block  text-zinc-950">R1 Questions</label>
                     {jobData.r1Questions.map((question, index) => (
                         <input
                             key={index}

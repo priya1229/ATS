@@ -11,3 +11,17 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
+/* Add this to your CSS file */
+.transparent-bg {
+    background-color: rgba(84, 96, 112, 0.8);
+    /* Tailwind's slate-600 with 80% opacity */
+}
+
+/* .full-screen-bg {
+    background-color: rgba(17, 24, 39, 0.75); 
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
