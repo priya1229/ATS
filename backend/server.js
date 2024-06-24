@@ -9,7 +9,7 @@ const port = process.env.PORT || 5000;
 
 // CORS configuration
 const corsOptions = {
-    origin: ['http://localhost:3000', 'https://atshumgrow.vercel.app/login'],
+    origin: ['http://localhost:3000', 'https://atshumgrow.vercel.app'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204,
