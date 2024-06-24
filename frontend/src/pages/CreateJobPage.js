@@ -41,7 +41,7 @@ const CreateJobPage = () => {
             if (err.response && err.response.status === 401) {
                 localStorage.removeItem('token');
                 alert('Unauthorized! Please log in again.');
-                // Example: history.push('/login');
+                // Redirect to login page if necessary
             } else {
                 alert('Failed to create job. Please try again later.');
             }

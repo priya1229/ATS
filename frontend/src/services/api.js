@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = 'https://backendats.vercel.app/api'; // Adjust this as needed
+// const API_URL = 'https://backendats.vercel.app/api';
+const API_URL = 'http://localhost:5000/api';
+// Adjust this as needed
 
 const api = axios.create({
     baseURL: API_URL,
@@ -9,9 +11,11 @@ const api = axios.create({
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
-        console.log('Token:', token); // Debug log
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
+            console.log('Config Headers with Token:', config.headers); // Debug log
+        } else {
+            console.log('No token found in localStorage'); // Debug log
         }
         return config;
     },
@@ -22,11 +26,13 @@ api.interceptors.request.use(
 
 export const login = async (credentials) => {
     const response = await api.post('/users/login', credentials);
-    console.log('Login response:', response.data); // Debug log
-    localStorage.setItem('token', response.data.token); // Ensure the token is stored here
+    localStorage.setItem('token', response.data.token);
     return response;
 };
 
+export const postJob = async (jobData) => {
+    return api.post('/jobs', jobData);
+};
 export const register = async (userData) => {
     return api.post('/users/register', userData);
 };
@@ -35,22 +41,19 @@ export const getJobs = async () => {
     return api.get('/jobs');
 };
 
-export const postJob = async (jobData) => {
-    return api.post('/jobs', jobData);
-};
 
 export const getJobDetails = async (jobId) => {
     return api.get(`/jobs/${jobId}`);
 };
 
 
-export const applyJob = async (jobId, resume, r1CheckFormResponses) => {
-    const applicationData = {
-        jobId,
-        resume,
-        r1CheckFormResponses,
-    };
-    return api.post('/jobs/apply', applicationData);
+export const applyJob = async (jobId, formData) => {
+    const response = await axios.post(`${API_URL}/applications/apply/${jobId}`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    return response.data;
 };
 
 export const getApplications = async () => {

@@ -1,4 +1,3 @@
-// backend/middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
@@ -12,7 +11,7 @@ const authMiddleware = async (req, res, next) => {
 
         const token = authHeader.replace('Bearer ', '');
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded._id);
+        const user = await User.findById(decoded.id); // Assuming your JWT payload contains 'id'
 
         if (!user) {
             console.log('User not found');
@@ -22,7 +21,7 @@ const authMiddleware = async (req, res, next) => {
         req.user = user;
         next();
     } catch (error) {
-        console.log('Authorization error', error);
+        console.log('Authorization error:', error.message);
         res.status(401).json({ error: 'Not authorized' });
     }
 };

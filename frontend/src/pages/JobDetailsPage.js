@@ -27,7 +27,7 @@ const JobDetailsPage = () => {
     }
 
     return (
-        <div className="border mt-5 ml-5 mr-5 rounded-lg shadow-md max-w-4xl mx-auto p-6 bg-slate-600">
+        <div className="border mt-5 ml-5 mr-5 rounded-lg shadow-md max-w-4xl mx-auto p-6 transparent-bg">
             <h2 className="text-2xl font-semibold mb-4">{jobDetails.title}</h2>
             <p className="text-lg">Location: {jobDetails.location}</p>
             <p className="text-lg">Salary: {jobDetails.salary}</p>
