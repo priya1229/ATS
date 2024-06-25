@@ -1,7 +1,5 @@
-// src/pages/ReviewApplicationsPage.js
-
 import React, { useState, useEffect } from 'react';
-import { getApplications, reviewApplication } from '../services/api'; // Import functions correctly
+import { getApplications, reviewApplication } from '../services/api';
 
 const ReviewApplicationsPage = () => {
     const [applications, setApplications] = useState([]);
@@ -18,24 +16,12 @@ const ReviewApplicationsPage = () => {
         fetchApplications();
     }, []);
 
-    const handleReview = async (applicationId, reviewData) => {
+    const handleReview = async (applicationId, approved) => {
         try {
-            await reviewApplication(applicationId, reviewData);
-            // Assuming you want to refresh applications list or notify success here
-            const updatedApplications = applications.map(app => {
-                if (app._id === applicationId) {
-                    // Update app object with new review data
-                    return {
-                        ...app,
-                        reviewed: true, // Example property, adjust based on your backend response
-                    };
-                }
-                return app;
-            });
-            setApplications(updatedApplications);
+            await reviewApplication(applicationId, { approved });
+            setApplications(applications.map(app => app._id === applicationId ? { ...app, status: approved ? 'Shortlisted' : 'Rejected' } : app));
         } catch (err) {
             console.error(err);
-            // Handle error (e.g., show message)
         }
     };
 
@@ -45,22 +31,17 @@ const ReviewApplicationsPage = () => {
             <div className="space-y-4">
                 {applications.map((application) => (
                     <div key={application._id} className="p-4 border border-gray-300 rounded-md">
-                        <h3 className="text-xl font-bold">{application.jobTitle}</h3>
-                        <p><strong>Candidate:</strong> {application.candidateName}</p>
-                        <p><strong>Answers:</strong></p>
-                        <ul>
-                            {application.answers.map((answer, index) => (
-                                <li key={index}>{answer}</li>
-                            ))}
-                        </ul>
+                        <h3 className="text-xl font-bold">{application.job.title}</h3>
+                        <p><strong>Candidate:</strong> {application.candidate.name}</p>
+                        <p><strong>R1 Check Form Responses:</strong> {application.r1CheckFormResponses}</p>
                         <button
-                            onClick={() => handleReview(application._id, { approved: true })}
+                            onClick={() => handleReview(application._id, true)}
                             className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 mr-2"
                         >
                             Approve
                         </button>
                         <button
-                            onClick={() => handleReview(application._id, { approved: false })}
+                            onClick={() => handleReview(application._id, false)}
                             className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
                         >
                             Reject

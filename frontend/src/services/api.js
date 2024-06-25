@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// const API_URL = 'https://backendats.vercel.app/api';
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://backendats.vercel.app/api';
+// const API_URL = 'http://localhost:5000/api';
 // Adjust this as needed
 
 const api = axios.create({
@@ -47,21 +47,20 @@ export const getJobDetails = async (jobId) => {
 };
 
 
-export const applyJob = async (jobId, formData) => {
-    const response = await axios.post(`${API_URL}/applications/apply/${jobId}`, formData, {
+export const applyJob = (jobId, formData) => {
+    return api.post(`/api/applications/apply/${jobId}`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
     });
-    return response.data;
 };
 
-export const getApplications = async () => {
-    return api.get('/applications'); // Adjust endpoint as per your backend
+export const getApplications = () => {
+    return api.get('/api/applications');
 };
 
-export const reviewApplication = async (applicationId, reviewData) => {
-    return api.put(`/applications/${applicationId}/review`, reviewData); // Adjust endpoint as per your backend
+export const reviewApplication = (applicationId, reviewData) => {
+    return api.put(`/api/applications/review/${applicationId}`, reviewData);
 };
 
 export default api;

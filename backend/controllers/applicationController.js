@@ -16,3 +16,12 @@ exports.reviewApplication = async (req, res) => {
     await application.save();
     res.status(200).send('Application reviewed successfully');
 };
+
+exports.getAllApplications = async (req, res) => {
+    try {
+        const applications = await Application.find().populate('candidate', 'name').populate('job', 'title');
+        res.json(applications);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

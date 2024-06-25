@@ -5,7 +5,7 @@ import { applyJob } from '../services/api';
 const ApplyJobPage = () => {
     const { jobId } = useParams();
     const navigate = useNavigate();
-    const [resume, setResume] = useState(null); // Use null for file input
+    const [resume, setResume] = useState(null);
     const [r1CheckFormResponses, setR1CheckFormResponses] = useState('');
 
     const handleFileChange = (e) => {

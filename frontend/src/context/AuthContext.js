@@ -1,4 +1,3 @@
-// src/context/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Create context
@@ -10,6 +9,7 @@ export const useAuth = () => useContext(AuthContext);
 // AuthProvider component
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [logoutCallback, setLogoutCallback] = useState(() => () => { });
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -28,12 +28,14 @@ export const AuthProvider = ({ children }) => {
         console.log('Logging out user');
         setUser(null);
         localStorage.removeItem('user');
+        logoutCallback();
     };
 
     const value = {
         user,
         login,
         logout,
+        setLogoutCallback,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
