@@ -1,4 +1,3 @@
-// backend/controllers/jobController.js
 const Job = require('../models/Job');
 
 exports.createJob = async (req, res) => {

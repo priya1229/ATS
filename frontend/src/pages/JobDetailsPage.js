@@ -1,10 +1,9 @@
-// src/pages/JobDetailsPage.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getJobDetails } from '../services/api';
 
 const JobDetailsPage = () => {
-    const { jobId } = useParams(); // Ensure this matches the route parameter
+    const { jobId } = useParams();
     const [jobDetails, setJobDetails] = useState(null);
 
     useEffect(() => {
@@ -37,15 +36,18 @@ const JobDetailsPage = () => {
                     <li key={index}>{responsibility}</li>
                 ))}
             </ul>
-            <h3 className="text-xl font-semibold mt-4">R1 Questions</h3>
-            <ul className="list-disc ml-6">
-                {jobDetails.r1questions.map((question, index) => (
-                    <li key={index}>{question}</li>
-                ))}
-            </ul>
+            {jobDetails.r1Questions && jobDetails.r1questions.length > 0 && (
+                <>
+                    <h3 className="text-xl font-semibold mt-4">R1 Questions</h3>
+                    <ul className="list-disc ml-6">
+                        {jobDetails.r1Questions.map((question, index) => (
+                            <li key={index}>{question}</li>
+                        ))}
+                    </ul>
+                </>
+            )}
 
         </div>
-
     );
 };
 
